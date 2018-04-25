@@ -12,7 +12,7 @@ services:
       - ./src:/var/www
     environment:
       - "DB_PORT=3306"
-      - "DB_HOST=database"
+      - "DB_HOST=database_laravel_api"
 
   # The Web Server
   web:
@@ -27,19 +27,36 @@ services:
       - 8003:80
 
   # The Database
-  database:
+  database_laravel_api:
     container_name: database_laravel_api
     image: mysql:latest
     environment:
       - "MYSQL_DATABASE=lv_api"
-      - "MYSQL_USER=root"
+      - "MYSQL_USER=admin"
       - "MYSQL_PASSWORD=123456"
       - "MYSQL_ROOT_PASSWORD=123456"
     ports:
         - "3310:3306"
     restart: always
+    command: mysqld --default_authentication_plugin="mysql_native_password"
     volumes:
       - vol-laravel-api:/var/lib/mysql
 
 volumes:
   vol-laravel-api:
+
+
+# Fix mysql error issue
+# mysqld --default_authentication_plugin="mysql_native_password"
+# After running the `docker-compose up`, Login to mysql container by "docker exec -it database_laravel_api mysql -u root -p"
+#CREATE USER 'admin'@'localhost' IDENTIFIED WITH mysql_native_password BY '123456';
+#GRANT ALL PRIVILEGES ON *.* TO 'admin'@'localhost' WITH GRANT OPTION;
+#CREATE USER 'admin'@'%' IDENTIFIED WITH mysql_native_password BY 'yourpass';
+#GRANT ALL PRIVILEGES ON *.* TO 'admin'@'%' WITH GRANT OPTION;
+# DROP DATABASE `lv_api`
+#CREATE DATABASE IF NOT EXISTS `lv_api` COLLATE 'utf8_general_ci' ;
+#GRANT ALL ON `lv_api`.* TO 'admin'@'%' ;
+#FLUSH PRIVILEGES ;
+
+# In config/database.php Change 'strict' => true To 'strict' => false
+# and clear the cache php artisan config:cache

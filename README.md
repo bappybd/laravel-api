@@ -11,9 +11,9 @@ if Docker build is successfull, then following two containers will be created.
 
 # Laravel initial installation instructions for docker
 Docker container name is "laravel_api_app"
- - docker exec -it laravel_api_app composer install 
- - docker exec -it laravel_api_app php artisan migrate
- - docker exec -it laravel_api_app php artisan passport:install
+ - docker exec -it app_laravel_api composer install 
+ - docker exec -it app_laravel_api php artisan migrate
+ - docker exec -it app_laravel_api php artisan passport:install
   
 # Create a public "access_token" by registering a Guest user.
  - Use postman to create an "Guest" user by this URL  "http://localhost:8002/api/register".
