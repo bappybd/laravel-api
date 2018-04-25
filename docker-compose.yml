@@ -3,7 +3,7 @@ services:
 
   # The Application
   app:
-    container_name: laravel_api_app
+    container_name: app_laravel_api
     build:
       context: ./
       dockerfile: docker/app.dockerfile
@@ -12,11 +12,11 @@ services:
       - ./src:/var/www
     environment:
       - "DB_PORT=3306"
-      - "DB_HOST=laravel_api_database"
+      - "DB_HOST=database"
 
   # The Web Server
   web:
-    container_name: laravel_api_database_web
+    container_name: web_laravel_api
     build:
       context: ./
       dockerfile: docker/web.dockerfile
@@ -24,22 +24,22 @@ services:
     volumes_from:
       - app
     ports:
-      - 8002:80
+      - 8003:80
 
   # The Database
-  laravel_api_database:
-    container_name: laravel_api_database_mysql
+  database:
+    container_name: database_laravel_api
     image: mysql:latest
     environment:
-      - "MYSQL_DATABASE=la_database"
+      - "MYSQL_DATABASE=lv_api"
       - "MYSQL_USER=root"
       - "MYSQL_PASSWORD=123456"
       - "MYSQL_ROOT_PASSWORD=123456"
     ports:
-        - "3308:3306"
+        - "3310:3306"
     restart: always
     volumes:
-      - laravel-apidata-vol:/var/lib/mysql
+      - vol-laravel-api:/var/lib/mysql
 
 volumes:
-  laravel-apidata-vol:
+  vol-laravel-api:
