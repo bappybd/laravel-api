@@ -11,6 +11,8 @@ if Docker build is successfull, then following two containers will be created.
 
 # Laravel initial installation instructions for docker
 Docker container name is "laravel_api_app"
+ - docker exec -it app_laravel_api chown -R www-data:www-data storage
+ - docker exec -it app_laravel_api php artisan key:generate
  - docker exec -it app_laravel_api composer install 
  - docker exec -it app_laravel_api php artisan migrate
  - docker exec -it app_laravel_api php artisan passport:install
@@ -25,3 +27,11 @@ Docker container name is "laravel_api_app"
 ## Docker connect to database shell
  - docker exec -it laravel_api_database_mysql mysql -u root -p la_database
  
+## Stop all running containers
+ - docker stop $(docker ps -aq) 
+ 
+## Remove all containers
+ - docker rm $(docker ps -aq)
+
+## Remove all images
+ - docker rmi $(docker images -q)
